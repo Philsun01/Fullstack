@@ -62,8 +62,6 @@ spacer('findCoworkersFor Larry')
 function findCoworkersFor(nameObj,arr){
 
   let manId = findManagerFor(nameObj, arr);
-  console.log(manId);
-
   let coworkers = [];
 
   for(let i in arr){
@@ -87,7 +85,15 @@ spacer('findManagementChain for moe')
 //given an employee and a list of employees, return a the management chain for that employee. The management chain starts from the employee with no manager with the passed in employees manager
 
 function findManagementChainForEmployee(name,arr){
-  return 'Not found';
+  let chain = [];
+  let empl = name;
+
+  while (empl !== 'Not found'){
+    empl = findManagerFor(empl,arr);
+    chain.push(empl)
+  }
+  chain.pop(); // remove the 'not found statement'
+  return chain.reverse();
 }
 
 console.log(findManagementChainForEmployee(findEmployeeByName('moe', employees), employees));//[  ]
