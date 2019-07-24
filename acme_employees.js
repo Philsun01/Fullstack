@@ -194,14 +194,30 @@ console.log(JSON.stringify(generateManagementTree(employees), null, 2));
   ]
 }
 */
-spacer('');
 
+spacer('');
+//*****************************************************
 spacer('displayManagementTree')
-function displayManagementTree(name,arr){
-  return 'Not found';
-}
 //given a tree of employees, generate a display which displays the hierarchy
-displayManagementTree(generateManagementTree(employees));/*
+function displayManagementTree(tree){
+
+  function printSub(arr,dashCount){
+    if(arr.length){
+      for(let i in arr){
+        console.log('-'.repeat(dashCount) + arr[i].name);
+        printSub(arr[i].reports,dashCount+1);
+      }
+    }
+    return;
+  }
+
+  console.log(tree.name);
+  printSub(tree.reports,1);
+  return ;
+}
+
+displayManagementTree(generateManagementTree(employees));
+/*
 moe
 -larry
 --shep
