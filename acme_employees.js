@@ -107,14 +107,38 @@ console.log(findManagementChainForEmployee(findEmployeeByName('shep Jr.', employ
 */
 spacer('');
 
-
+//*****************************************************
 spacer('generateManagementTree')
+//given a list of employees, generate a tree like structure for the employees, starting with the employee who has no manager. Each employee will have a reports property which is an array of the employees who report directly to them.
 
-function generateManagementTree(name,arr){
-  return 'Not found';
+function generateManagementTree(arr){
+  let tree = {};
+  for(let i in arr){ //initial scan for the ONE Boss
+    if(!arr[i].managerId){
+      tree['id'] = arr[i]['id'];
+      tree['name'] = arr[i]['name'];
+    }
+  }
+
+  function scanSub(manID,arr){
+    let subList = [];
+    for(let j in arr){
+      if(arr[j].managerId === manID){
+        let currentEmp = {};
+        currentEmp['id'] = arr[j]['id'];
+        currentEmp['name'] = arr[j]['name'];
+        currentEmp['reports'] = scanSub(arr[j].id,arr);
+        subList.push(currentEmp);
+      }
+    }
+    return subList;
+  }
+
+  tree['reports'] = scanSub(tree['id'],arr);
+
+  return tree;
 }
 
-//given a list of employees, generate a tree like structure for the employees, starting with the employee who has no manager. Each employee will have a reports property which is an array of the employees who report directly to them.
 console.log(JSON.stringify(generateManagementTree(employees), null, 2));
 /*
 {
